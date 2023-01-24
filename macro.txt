@@ -1,0 +1,146 @@
+# SOLUTION 1
+
+Sub Concatenate_Sheets()
+    Dim ws As Worksheet
+    Dim Concat_Sheet As Worksheet
+    Dim LastRow As Long
+    Dim LastCol As Long
+    Dim NextRow As Long
+    Dim i As Long
+    
+    Set Concat_Sheet = ThisWorkbook.Sheets.Add(After:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count))
+    Concat_Sheet.Name = "Concat_Sheet"
+    NextRow = 1
+    
+    For Each ws In ThisWorkbook.Sheets
+        If ws.Name <> "Concat_Sheet" Then
+            LastRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
+            LastCol = ws.Cells(1, ws.Columns.Count).End(xlToLeft).Column
+            ws.Range(ws.Cells(1, 1), ws.Cells(LastRow, LastCol)).Copy Concat_Sheet.Cells(NextRow, 1)
+            NextRow = Concat_Sheet.Cells(Rows.Count, 1).End(xlUp).Row + 1
+        End If
+    Next
+    
+    Concat_Sheet.Range("A1:Z" & LastRow).HorizontalAlignment = xlCenter
+    Columns("F:F").Select
+    Selection.NumberFormat = "dd/mm/yy hh:mm"
+    Columns("A:A").Select
+    Selection.Delete Shift:=xlToLeft
+
+    For i = 1 To LastCol
+       If WorksheetFunction.CountA(Concat_Sheet.Range(Concat_Sheet.Cells(1, i), Concat_Sheet.Cells(LastRow, i))) > 0 Then
+           Concat_Sheet.Cells(1, i).Font.Bold = True
+           Concat_Sheet.Cells(1, i).Interior.Color = RGB(255, 153, 0)
+       End If
+    Next
+End Sub
+
+
+# SOLUTION 2
+
+Sub Concatenate_Sheets()
+    Dim ws As Worksheet
+    Dim Concat_Sheet As Worksheet
+    Dim LastRow As Long
+    Dim LastCol As Long
+    Dim NextRow As Long
+    Dim i As Long
+    
+    Set Concat_Sheet = ThisWorkbook.Sheets.Add(After:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count))
+    Concat_Sheet.Name = "Concat_Sheet"
+    NextRow = 1
+    
+    For Each ws In ThisWorkbook.Sheets
+        If ws.Name <> "Concat_Sheet" Then
+            LastRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
+            LastCol = ws.Cells(1, ws.Columns.Count).End(xlToLeft).Column
+            ws.Range(ws.Cells(1, 1), ws.Cells(LastRow, LastCol)).Copy Concat_Sheet.Cells(NextRow, 1)
+            NextRow = Concat_Sheet.Cells(Rows.Count, 1).End(xlUp).Row + 1
+        End If
+    Next
+    
+    Concat_Sheet.Range("A1:Z" & LastRow).HorizontalAlignment = xlCenter
+    Columns("F:F").Select
+    Selection.NumberFormat = "dd/mm/yy hh:mm"
+    Columns("A:A").Select
+    Selection.Delete Shift:=xlToLeft
+
+    For i = 1 To LastCol
+       If WorksheetFunction.CountA(Concat_Sheet.Range(Concat_Sheet.Cells(1, i), Concat_Sheet.Cells(LastRow, i))) > 0 Then
+           Concat_Sheet.Cells(1, i).Font.Bold = True
+           Concat_Sheet.Cells(1, i).Interior.Color = RGB(255, 153, 0)
+       End If
+    Next
+End Sub
+Sub pipeline()
+'
+' pipeline Macro
+'
+
+'
+    Sheets.Add After:=ActiveSheet
+    Sheets("Sheet38").Select
+    Sheets("Sheet38").Name = "Concat_Sheet"
+    Sheets("Sheet1").Select
+    Range("B1:F20").Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Selection.Copy
+    Sheets("Concat_Sheet").Select
+    ActiveSheet.Paste
+    Sheets("Sheet2").Select
+    Range("B2").Select
+    Range(Selection, Selection.End(xlToRight)).Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Application.CutCopyMode = False
+    Selection.Copy
+    Sheets("Concat_Sheet").Select
+    Range("A204").Select
+    ActiveSheet.Paste
+    Sheets("Sheet3").Select
+    Range("B2:C2").Select
+    Range(Selection, Selection.End(xlToRight)).Select
+    Range("B2:F3").Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Application.CutCopyMode = False
+    Selection.Copy
+    Sheets("Concat_Sheet").Select
+    Range("A505").Select
+    ActiveSheet.Paste
+    Sheets("sheet4").Select
+    Range("A2:B2").Select
+    Range(Selection, Selection.End(xlToRight)).Select
+    Range("A2:E3").Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Application.CutCopyMode = False
+    Selection.Copy
+    Sheets("Concat_Sheet").Select
+    Range("A804").Select
+    ActiveSheet.Paste
+    Columns("A:A").EntireColumn.AutoFit
+    Columns("B:B").EntireColumn.AutoFit
+    Columns("C:C").EntireColumn.AutoFit
+    Columns("D:D").EntireColumn.AutoFit
+    Columns("E:E").EntireColumn.AutoFit
+    Columns("E:E").Select
+    Application.CutCopyMode = False
+    Range("E2").Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Selection.NumberFormat = "dd/mm/yy hh:mm"
+    Range("A1:E1").Select
+    Application.CutCopyMode = False
+    Application.CutCopyMode = False
+    Selection.Style = "Accent2"
+    Selection.Font.Bold = True
+    Range("A1:E1002").Select
+    With Selection
+        .HorizontalAlignment = xlCenter
+        .VerticalAlignment = xlBottom
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+End Sub
